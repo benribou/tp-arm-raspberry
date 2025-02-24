@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 
 export default function HomePage() {
-  const [sensorData, setSensorData] = useState<{
-    temperature: number;
-    humidity: number;
-  } | null>({ temperature: 25, humidity: 60 });
+  const [sensorData, setSensorData] = useState<{ temperature: number; humidity: number } | null>(
+    null
+  );
   const [targetTemperature, setTargetTemperature] = useState(25);
   const [validatedTarget, setValidatedTarget] = useState<number | null>(null);
   const [isSending, setIsSending] = useState(false);
 
+  // 1) Récupération des données du capteur
   useEffect(() => {
     async function fetchSensorData() {
       try {
@@ -18,7 +18,7 @@ export default function HomePage() {
         const data = await res.json();
         setSensorData(data);
       } catch (error) {
-        console.error("Erreur lors de la récupération des données :", error);
+        console.error("Erreur lors de la récupération des données du capteur :", error);
       }
     }
 
@@ -28,10 +28,35 @@ export default function HomePage() {
     // return () => clearInterval(interval);
   }, []);
 
+  // 2) Récupération de la température cible sauvegardée
+  useEffect(() => {
+    async function fetchSavedTarget() {
+      try {
+        const res = await fetch("/api/temperature");
+        if (!res.ok) {
+          throw new Error("Impossible de récupérer la température cible");
+        }
+        const data = await res.json();
+
+        // data.targetTemperature est défini dans votre route GET
+        if (data.targetTemperature !== undefined) {
+          setValidatedTarget(data.targetTemperature);
+          setTargetTemperature(data.targetTemperature); // on aligne le slider sur la valeur sauvegardée
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération de la température cible :", error);
+      }
+    }
+
+    fetchSavedTarget();
+  }, []);
+
+  // Gestion du slider
   const handleTemperatureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTargetTemperature(Number(event.target.value));
   };
 
+  // 3) Envoi de la température cible vers /api/temperature (POST)
   const handleSubmit = async () => {
     setIsSending(true);
     try {
@@ -43,7 +68,7 @@ export default function HomePage() {
       if (!res.ok) {
         console.error("Erreur lors de l'envoi de la température cible");
       } else {
-        // Met à jour la température cible validée
+        // Met à jour la température cible validée localement
         setValidatedTarget(targetTemperature);
       }
     } catch (error) {
@@ -53,7 +78,7 @@ export default function HomePage() {
     }
   };
 
-  // Affiche une alerte si la température mesurée est supérieure ou égale à la cible validée
+  // 4) Détermine si la température mesurée est >= la cible validée
   const targetReached =
     sensorData && validatedTarget !== null && sensorData.temperature >= validatedTarget;
 
