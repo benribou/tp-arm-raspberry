@@ -19,6 +19,7 @@ export default function HomePage() {
         const res = await fetch("/api/sensor");
         const data = await res.json();
         setSensorData(data);
+        console.log("sensorData -> ", sensorData)
       } catch (error) {
         console.error("Erreur lors de la récupération des données du capteur :", error);
       }
@@ -30,7 +31,7 @@ export default function HomePage() {
     // Rafraîchissement toutes les 500 ms (ajuste si besoin)
     const interval = setInterval(fetchSensorData, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [sensorData]);
 
   // Mise à jour de la référence dès que sensorData change
   useEffect(() => {
