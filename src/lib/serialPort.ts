@@ -27,3 +27,16 @@ export function getLastReading(): SensorData {
   console.log("lastReading -> ", lastReading)
   return lastReading;
 }
+
+export function sendTargetTemperature(target: number): void {
+  // Formater le message en JSON
+  const payload = JSON.stringify({ targetTemperature: target });
+  // Ajouter un retour à la ligne pour que le STM32 puisse délimiter la trame
+  const message = payload + "\n";
+  port.write(message, (err) => {
+    if (err) {
+      return console.error("Erreur lors de l'envoi au STM32 :", err.message);
+    }
+    console.log("Message envoyé au STM32 :", payload);
+  });
+}

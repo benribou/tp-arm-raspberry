@@ -1,6 +1,7 @@
 // src/app/api/temperature/route.ts
 import { NextResponse } from 'next/server';
 import { readSettings, writeSettings } from '@/lib/storage';
+import { sendTargetTemperature } from '@/lib/serialPort';
 
 export async function GET() {
   try {
@@ -18,6 +19,10 @@ export async function POST(request: Request) {
     const currentSettings = readSettings();
     currentSettings.targetTemperature = targetTemperature;
     writeSettings(currentSettings);
+
+    // Envoyer la température cible au STM32
+    sendTargetTemperature(targetTemperature);
+    console.log("Température cible envoyée au STM32 :", targetTemperature);
 
     return NextResponse.json({ success: true, targetTemperature });
   } catch (error) {
