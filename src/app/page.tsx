@@ -21,11 +21,13 @@ export default function HomePage() {
         console.error("Erreur lors de la récupération des données du capteur :", error);
       }
     }
-
+  
+    // Appel initial
     fetchSensorData();
-    // Optionnel : polling régulier
-    // const interval = setInterval(fetchSensorData, 5000);
-    // return () => clearInterval(interval);
+  
+    // Rafraîchissement toutes les 5 secondes
+    const interval = setInterval(fetchSensorData, 500);
+    return () => clearInterval(interval);
   }, []);
 
   // 2) Récupération de la température cible sauvegardée
