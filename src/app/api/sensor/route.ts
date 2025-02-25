@@ -8,7 +8,7 @@ export async function GET() {
   try {
     // On récupère les vraies données lues par le port série
     const data = getLastReading();
-    console.log(data)
+    // console.log(data)
     // On renvoie la réponse au format JSON
     return NextResponse.json(data);
   } catch (error) {
