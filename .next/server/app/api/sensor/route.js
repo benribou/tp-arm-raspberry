@@ -67,91 +67,25 @@ module.exports = require("next/dist/server/app-render/work-unit-async-storage.ex
 
 /***/ }),
 
-/***/ "child_process":
-/*!********************************!*\
-  !*** external "child_process" ***!
-  \********************************/
+/***/ "@serialport/parser-readline":
+/*!**********************************************!*\
+  !*** external "@serialport/parser-readline" ***!
+  \**********************************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("child_process");
+module.exports = require("@serialport/parser-readline");
 
 /***/ }),
 
-/***/ "events":
-/*!*************************!*\
-  !*** external "events" ***!
-  \*************************/
+/***/ "serialport":
+/*!*****************************!*\
+  !*** external "serialport" ***!
+  \*****************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("events");
-
-/***/ }),
-
-/***/ "fs":
-/*!*********************!*\
-  !*** external "fs" ***!
-  \*********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("fs");
-
-/***/ }),
-
-/***/ "os":
-/*!*********************!*\
-  !*** external "os" ***!
-  \*********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("os");
-
-/***/ }),
-
-/***/ "path":
-/*!***********************!*\
-  !*** external "path" ***!
-  \***********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("path");
-
-/***/ }),
-
-/***/ "stream":
-/*!*************************!*\
-  !*** external "stream" ***!
-  \*************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("stream");
-
-/***/ }),
-
-/***/ "tty":
-/*!**********************!*\
-  !*** external "tty" ***!
-  \**********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("tty");
-
-/***/ }),
-
-/***/ "util":
-/*!***********************!*\
-  !*** external "util" ***!
-  \***********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("util");
+module.exports = require("serialport");
 
 /***/ }),
 
@@ -193,7 +127,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   GET: () => (/* binding */ GET),\n/* harmony export */   runtime: () => (/* binding */ runtime)\n/* harmony export */ });\n/* harmony import */ var next_server__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! next/server */ \"(rsc)/./node_modules/next/dist/api/server.js\");\n/* harmony import */ var _lib_serialPort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/lib/serialPort */ \"(rsc)/./src/lib/serialPort.ts\");\n// src/app/api/sensor/route.ts\nconst runtime = 'nodejs';\n\n\nasync function GET() {\n    try {\n        // On récupère les vraies données lues par le port série\n        const data = (0,_lib_serialPort__WEBPACK_IMPORTED_MODULE_1__.getLastReading)();\n        // On renvoie la réponse au format JSON\n        return next_server__WEBPACK_IMPORTED_MODULE_0__.NextResponse.json(data);\n    } catch (error) {\n        console.error('Erreur dans GET /api/sensor:', error);\n        return next_server__WEBPACK_IMPORTED_MODULE_0__.NextResponse.json({\n            error: 'Une erreur est survenue'\n        }, {\n            status: 500\n        });\n    }\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9zcmMvYXBwL2FwaS9zZW5zb3Ivcm91dGUudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBLDhCQUE4QjtBQUN2QixNQUFNQSxVQUFVLFNBQVM7QUFFVztBQUNPO0FBRTNDLGVBQWVHO0lBQ3BCLElBQUk7UUFDRix3REFBd0Q7UUFDeEQsTUFBTUMsT0FBT0YsK0RBQWNBO1FBQzNCLHVDQUF1QztRQUN2QyxPQUFPRCxxREFBWUEsQ0FBQ0ksSUFBSSxDQUFDRDtJQUMzQixFQUFFLE9BQU9FLE9BQU87UUFDZEMsUUFBUUQsS0FBSyxDQUFDLGdDQUFnQ0E7UUFDOUMsT0FBT0wscURBQVlBLENBQUNJLElBQUksQ0FBQztZQUFFQyxPQUFPO1FBQTBCLEdBQUc7WUFBRUUsUUFBUTtRQUFJO0lBQy9FO0FBQ0YiLCJzb3VyY2VzIjpbIi9Vc2Vycy9yaWJvdWJlbmphbWluL2dpdC90cC1hcm0tcmFzcGJlcnJ5L3NyYy9hcHAvYXBpL3NlbnNvci9yb3V0ZS50cyJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBzcmMvYXBwL2FwaS9zZW5zb3Ivcm91dGUudHNcbmV4cG9ydCBjb25zdCBydW50aW1lID0gJ25vZGVqcyc7XG5cbmltcG9ydCB7IE5leHRSZXNwb25zZSB9IGZyb20gJ25leHQvc2VydmVyJztcbmltcG9ydCB7IGdldExhc3RSZWFkaW5nIH0gZnJvbSAnQC9saWIvc2VyaWFsUG9ydCc7XG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBHRVQoKSB7XG4gIHRyeSB7XG4gICAgLy8gT24gcsOpY3Vww6hyZSBsZXMgdnJhaWVzIGRvbm7DqWVzIGx1ZXMgcGFyIGxlIHBvcnQgc8OpcmllXG4gICAgY29uc3QgZGF0YSA9IGdldExhc3RSZWFkaW5nKCk7XG4gICAgLy8gT24gcmVudm9pZSBsYSByw6lwb25zZSBhdSBmb3JtYXQgSlNPTlxuICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbihkYXRhKTtcbiAgfSBjYXRjaCAoZXJyb3IpIHtcbiAgICBjb25zb2xlLmVycm9yKCdFcnJldXIgZGFucyBHRVQgL2FwaS9zZW5zb3I6JywgZXJyb3IpO1xuICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAnVW5lIGVycmV1ciBlc3Qgc3VydmVudWUnIH0sIHsgc3RhdHVzOiA1MDAgfSk7XG4gIH1cbn1cbiJdLCJuYW1lcyI6WyJydW50aW1lIiwiTmV4dFJlc3BvbnNlIiwiZ2V0TGFzdFJlYWRpbmciLCJHRVQiLCJkYXRhIiwianNvbiIsImVycm9yIiwiY29uc29sZSIsInN0YXR1cyJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(rsc)/./src/app/api/sensor/route.ts\n");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   GET: () => (/* binding */ GET),\n/* harmony export */   runtime: () => (/* binding */ runtime)\n/* harmony export */ });\n/* harmony import */ var next_server__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! next/server */ \"(rsc)/./node_modules/next/dist/api/server.js\");\n/* harmony import */ var _lib_serialPort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/lib/serialPort */ \"(rsc)/./src/lib/serialPort.ts\");\n// src/app/api/sensor/route.ts\nconst runtime = 'nodejs';\n\n\nasync function GET() {\n    try {\n        // On récupère les vraies données lues par le port série\n        const data = (0,_lib_serialPort__WEBPACK_IMPORTED_MODULE_1__.getLastReading)();\n        console.log(data);\n        // On renvoie la réponse au format JSON\n        return next_server__WEBPACK_IMPORTED_MODULE_0__.NextResponse.json(data);\n    } catch (error) {\n        console.error('Erreur dans GET /api/sensor:', error);\n        return next_server__WEBPACK_IMPORTED_MODULE_0__.NextResponse.json({\n            error: 'Une erreur est survenue'\n        }, {\n            status: 500\n        });\n    }\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9zcmMvYXBwL2FwaS9zZW5zb3Ivcm91dGUudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBLDhCQUE4QjtBQUN2QixNQUFNQSxVQUFVLFNBQVM7QUFFVztBQUNPO0FBRTNDLGVBQWVHO0lBQ3BCLElBQUk7UUFDRix3REFBd0Q7UUFDeEQsTUFBTUMsT0FBT0YsK0RBQWNBO1FBQzNCRyxRQUFRQyxHQUFHLENBQUNGO1FBQ1osdUNBQXVDO1FBQ3ZDLE9BQU9ILHFEQUFZQSxDQUFDTSxJQUFJLENBQUNIO0lBQzNCLEVBQUUsT0FBT0ksT0FBTztRQUNkSCxRQUFRRyxLQUFLLENBQUMsZ0NBQWdDQTtRQUM5QyxPQUFPUCxxREFBWUEsQ0FBQ00sSUFBSSxDQUFDO1lBQUVDLE9BQU87UUFBMEIsR0FBRztZQUFFQyxRQUFRO1FBQUk7SUFDL0U7QUFDRiIsInNvdXJjZXMiOlsiL1VzZXJzL3JpYm91YmVuamFtaW4vZ2l0L3RwLWFybS1yYXNwYmVycnkvc3JjL2FwcC9hcGkvc2Vuc29yL3JvdXRlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbIi8vIHNyYy9hcHAvYXBpL3NlbnNvci9yb3V0ZS50c1xuZXhwb3J0IGNvbnN0IHJ1bnRpbWUgPSAnbm9kZWpzJztcblxuaW1wb3J0IHsgTmV4dFJlc3BvbnNlIH0gZnJvbSAnbmV4dC9zZXJ2ZXInO1xuaW1wb3J0IHsgZ2V0TGFzdFJlYWRpbmcgfSBmcm9tICdAL2xpYi9zZXJpYWxQb3J0JztcblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIEdFVCgpIHtcbiAgdHJ5IHtcbiAgICAvLyBPbiByw6ljdXDDqHJlIGxlcyB2cmFpZXMgZG9ubsOpZXMgbHVlcyBwYXIgbGUgcG9ydCBzw6lyaWVcbiAgICBjb25zdCBkYXRhID0gZ2V0TGFzdFJlYWRpbmcoKTtcbiAgICBjb25zb2xlLmxvZyhkYXRhKVxuICAgIC8vIE9uIHJlbnZvaWUgbGEgcsOpcG9uc2UgYXUgZm9ybWF0IEpTT05cbiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oZGF0YSk7XG4gIH0gY2F0Y2ggKGVycm9yKSB7XG4gICAgY29uc29sZS5lcnJvcignRXJyZXVyIGRhbnMgR0VUIC9hcGkvc2Vuc29yOicsIGVycm9yKTtcbiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ1VuZSBlcnJldXIgZXN0IHN1cnZlbnVlJyB9LCB7IHN0YXR1czogNTAwIH0pO1xuICB9XG59XG4iXSwibmFtZXMiOlsicnVudGltZSIsIk5leHRSZXNwb25zZSIsImdldExhc3RSZWFkaW5nIiwiR0VUIiwiZGF0YSIsImNvbnNvbGUiLCJsb2ciLCJqc29uIiwiZXJyb3IiLCJzdGF0dXMiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(rsc)/./src/app/api/sensor/route.ts\n");
 
 /***/ }),
 
@@ -204,7 +138,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   getLastReading: () => (/* binding */ getLastReading)\n/* harmony export */ });\n/* harmony import */ var serialport__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! serialport */ \"(rsc)/./node_modules/serialport/dist/index.js\");\n/* harmony import */ var serialport__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(serialport__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _serialport_parser_readline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @serialport/parser-readline */ \"(rsc)/./node_modules/@serialport/parser-readline/dist/index.js\");\n// src/lib/serialPort.ts\n\n\nlet lastReading = {\n    temperature: 0,\n    humidity: 0\n};\nconst port = new serialport__WEBPACK_IMPORTED_MODULE_0__.SerialPort({\n    path: '/dev/ttyACM0',\n    baudRate: 115200\n});\nconst parser = port.pipe(new _serialport_parser_readline__WEBPACK_IMPORTED_MODULE_1__.ReadlineParser({\n    delimiter: '\\n'\n}));\nparser.on('data', (line)=>{\n    try {\n        const data = JSON.parse(line.trim());\n        lastReading = {\n            temperature: data.temperature,\n            humidity: data.humidity\n        };\n        console.log('Nouvelle lecture depuis STM32 :', lastReading);\n    } catch (error) {\n        console.error('Erreur de parsing :', error);\n    }\n});\nfunction getLastReading() {\n    return lastReading;\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9zcmMvbGliL3NlcmlhbFBvcnQudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBLHdCQUF3QjtBQUNnQjtBQUNxQjtBQU83RCxJQUFJRSxjQUEwQjtJQUFFQyxhQUFhO0lBQUdDLFVBQVU7QUFBRTtBQUU1RCxNQUFNQyxPQUFPLElBQUlMLGtEQUFVQSxDQUFDO0lBQUVNLE1BQU07SUFBZ0JDLFVBQVU7QUFBTztBQUNyRSxNQUFNQyxTQUFTSCxLQUFLSSxJQUFJLENBQUMsSUFBSVIsdUVBQWNBLENBQUM7SUFBRVMsV0FBVztBQUFLO0FBRTlERixPQUFPRyxFQUFFLENBQUMsUUFBUSxDQUFDQztJQUNqQixJQUFJO1FBQ0YsTUFBTUMsT0FBT0MsS0FBS0MsS0FBSyxDQUFDSCxLQUFLSSxJQUFJO1FBQ2pDZCxjQUFjO1lBQUVDLGFBQWFVLEtBQUtWLFdBQVc7WUFBRUMsVUFBVVMsS0FBS1QsUUFBUTtRQUFDO1FBQ3ZFYSxRQUFRQyxHQUFHLENBQUMsbUNBQW1DaEI7SUFDakQsRUFBRSxPQUFPaUIsT0FBTztRQUNkRixRQUFRRSxLQUFLLENBQUMsdUJBQXVCQTtJQUN2QztBQUNGO0FBRU8sU0FBU0M7SUFDZCxPQUFPbEI7QUFDVCIsInNvdXJjZXMiOlsiL1VzZXJzL3JpYm91YmVuamFtaW4vZ2l0L3RwLWFybS1yYXNwYmVycnkvc3JjL2xpYi9zZXJpYWxQb3J0LnRzIl0sInNvdXJjZXNDb250ZW50IjpbIi8vIHNyYy9saWIvc2VyaWFsUG9ydC50c1xuaW1wb3J0IHsgU2VyaWFsUG9ydCB9IGZyb20gJ3NlcmlhbHBvcnQnO1xuaW1wb3J0IHsgUmVhZGxpbmVQYXJzZXIgfSBmcm9tICdAc2VyaWFscG9ydC9wYXJzZXItcmVhZGxpbmUnO1xuXG5pbnRlcmZhY2UgU2Vuc29yRGF0YSB7XG4gIHRlbXBlcmF0dXJlOiBudW1iZXI7XG4gIGh1bWlkaXR5OiBudW1iZXI7XG59XG5cbmxldCBsYXN0UmVhZGluZzogU2Vuc29yRGF0YSA9IHsgdGVtcGVyYXR1cmU6IDAsIGh1bWlkaXR5OiAwIH07XG5cbmNvbnN0IHBvcnQgPSBuZXcgU2VyaWFsUG9ydCh7IHBhdGg6ICcvZGV2L3R0eUFDTTAnLCBiYXVkUmF0ZTogMTE1MjAwIH0pO1xuY29uc3QgcGFyc2VyID0gcG9ydC5waXBlKG5ldyBSZWFkbGluZVBhcnNlcih7IGRlbGltaXRlcjogJ1xcbicgfSkpO1xuXG5wYXJzZXIub24oJ2RhdGEnLCAobGluZTogc3RyaW5nKSA9PiB7XG4gIHRyeSB7XG4gICAgY29uc3QgZGF0YSA9IEpTT04ucGFyc2UobGluZS50cmltKCkpO1xuICAgIGxhc3RSZWFkaW5nID0geyB0ZW1wZXJhdHVyZTogZGF0YS50ZW1wZXJhdHVyZSwgaHVtaWRpdHk6IGRhdGEuaHVtaWRpdHkgfTtcbiAgICBjb25zb2xlLmxvZygnTm91dmVsbGUgbGVjdHVyZSBkZXB1aXMgU1RNMzIgOicsIGxhc3RSZWFkaW5nKTtcbiAgfSBjYXRjaCAoZXJyb3IpIHtcbiAgICBjb25zb2xlLmVycm9yKCdFcnJldXIgZGUgcGFyc2luZyA6JywgZXJyb3IpO1xuICB9XG59KTtcblxuZXhwb3J0IGZ1bmN0aW9uIGdldExhc3RSZWFkaW5nKCk6IFNlbnNvckRhdGEge1xuICByZXR1cm4gbGFzdFJlYWRpbmc7XG59XG4iXSwibmFtZXMiOlsiU2VyaWFsUG9ydCIsIlJlYWRsaW5lUGFyc2VyIiwibGFzdFJlYWRpbmciLCJ0ZW1wZXJhdHVyZSIsImh1bWlkaXR5IiwicG9ydCIsInBhdGgiLCJiYXVkUmF0ZSIsInBhcnNlciIsInBpcGUiLCJkZWxpbWl0ZXIiLCJvbiIsImxpbmUiLCJkYXRhIiwiSlNPTiIsInBhcnNlIiwidHJpbSIsImNvbnNvbGUiLCJsb2ciLCJlcnJvciIsImdldExhc3RSZWFkaW5nIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(rsc)/./src/lib/serialPort.ts\n");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   getLastReading: () => (/* binding */ getLastReading)\n/* harmony export */ });\n/* harmony import */ var serialport__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! serialport */ \"serialport\");\n/* harmony import */ var serialport__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(serialport__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _serialport_parser_readline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @serialport/parser-readline */ \"@serialport/parser-readline\");\n/* harmony import */ var _serialport_parser_readline__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_serialport_parser_readline__WEBPACK_IMPORTED_MODULE_1__);\n// src/lib/serialPort.ts\n\n\nlet lastReading = {\n    temperature: 0,\n    humidity: 0\n};\nconst port = new serialport__WEBPACK_IMPORTED_MODULE_0__.SerialPort({\n    path: '/dev/ttyACM0',\n    baudRate: 115200\n});\nconst parser = port.pipe(new _serialport_parser_readline__WEBPACK_IMPORTED_MODULE_1__.ReadlineParser({\n    delimiter: '\\n'\n}));\nparser.on('data', (line)=>{\n    try {\n        console.log(line);\n        const data = JSON.parse(line.trim());\n        lastReading = {\n            temperature: data.temperature,\n            humidity: data.humidity\n        };\n        console.log('Nouvelle lecture depuis STM32 :', lastReading);\n    } catch (error) {\n        console.error('Erreur de parsing :', error);\n    }\n});\nfunction getLastReading() {\n    console.log(lastReading);\n    return lastReading;\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9zcmMvbGliL3NlcmlhbFBvcnQudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7QUFBQSx3QkFBd0I7QUFDZ0I7QUFDcUI7QUFPN0QsSUFBSUUsY0FBMEI7SUFBRUMsYUFBYTtJQUFHQyxVQUFVO0FBQUU7QUFFNUQsTUFBTUMsT0FBTyxJQUFJTCxrREFBVUEsQ0FBQztJQUFFTSxNQUFNO0lBQWdCQyxVQUFVO0FBQU87QUFDckUsTUFBTUMsU0FBU0gsS0FBS0ksSUFBSSxDQUFDLElBQUlSLHVFQUFjQSxDQUFDO0lBQUVTLFdBQVc7QUFBSztBQUU5REYsT0FBT0csRUFBRSxDQUFDLFFBQVEsQ0FBQ0M7SUFDakIsSUFBSTtRQUNGQyxRQUFRQyxHQUFHLENBQUNGO1FBQ1osTUFBTUcsT0FBT0MsS0FBS0MsS0FBSyxDQUFDTCxLQUFLTSxJQUFJO1FBQ2pDaEIsY0FBYztZQUFFQyxhQUFhWSxLQUFLWixXQUFXO1lBQUVDLFVBQVVXLEtBQUtYLFFBQVE7UUFBQztRQUN2RVMsUUFBUUMsR0FBRyxDQUFDLG1DQUFtQ1o7SUFDakQsRUFBRSxPQUFPaUIsT0FBTztRQUNkTixRQUFRTSxLQUFLLENBQUMsdUJBQXVCQTtJQUN2QztBQUNGO0FBRU8sU0FBU0M7SUFDZFAsUUFBUUMsR0FBRyxDQUFDWjtJQUNaLE9BQU9BO0FBQ1QiLCJzb3VyY2VzIjpbIi9Vc2Vycy9yaWJvdWJlbmphbWluL2dpdC90cC1hcm0tcmFzcGJlcnJ5L3NyYy9saWIvc2VyaWFsUG9ydC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBzcmMvbGliL3NlcmlhbFBvcnQudHNcbmltcG9ydCB7IFNlcmlhbFBvcnQgfSBmcm9tICdzZXJpYWxwb3J0JztcbmltcG9ydCB7IFJlYWRsaW5lUGFyc2VyIH0gZnJvbSAnQHNlcmlhbHBvcnQvcGFyc2VyLXJlYWRsaW5lJztcblxuaW50ZXJmYWNlIFNlbnNvckRhdGEge1xuICB0ZW1wZXJhdHVyZTogbnVtYmVyO1xuICBodW1pZGl0eTogbnVtYmVyO1xufVxuXG5sZXQgbGFzdFJlYWRpbmc6IFNlbnNvckRhdGEgPSB7IHRlbXBlcmF0dXJlOiAwLCBodW1pZGl0eTogMCB9O1xuXG5jb25zdCBwb3J0ID0gbmV3IFNlcmlhbFBvcnQoeyBwYXRoOiAnL2Rldi90dHlBQ00wJywgYmF1ZFJhdGU6IDExNTIwMCB9KTtcbmNvbnN0IHBhcnNlciA9IHBvcnQucGlwZShuZXcgUmVhZGxpbmVQYXJzZXIoeyBkZWxpbWl0ZXI6ICdcXG4nIH0pKTtcblxucGFyc2VyLm9uKCdkYXRhJywgKGxpbmU6IHN0cmluZykgPT4ge1xuICB0cnkge1xuICAgIGNvbnNvbGUubG9nKGxpbmUpXG4gICAgY29uc3QgZGF0YSA9IEpTT04ucGFyc2UobGluZS50cmltKCkpO1xuICAgIGxhc3RSZWFkaW5nID0geyB0ZW1wZXJhdHVyZTogZGF0YS50ZW1wZXJhdHVyZSwgaHVtaWRpdHk6IGRhdGEuaHVtaWRpdHkgfTtcbiAgICBjb25zb2xlLmxvZygnTm91dmVsbGUgbGVjdHVyZSBkZXB1aXMgU1RNMzIgOicsIGxhc3RSZWFkaW5nKTtcbiAgfSBjYXRjaCAoZXJyb3IpIHtcbiAgICBjb25zb2xlLmVycm9yKCdFcnJldXIgZGUgcGFyc2luZyA6JywgZXJyb3IpO1xuICB9XG59KTtcblxuZXhwb3J0IGZ1bmN0aW9uIGdldExhc3RSZWFkaW5nKCk6IFNlbnNvckRhdGEge1xuICBjb25zb2xlLmxvZyhsYXN0UmVhZGluZylcbiAgcmV0dXJuIGxhc3RSZWFkaW5nO1xufVxuIl0sIm5hbWVzIjpbIlNlcmlhbFBvcnQiLCJSZWFkbGluZVBhcnNlciIsImxhc3RSZWFkaW5nIiwidGVtcGVyYXR1cmUiLCJodW1pZGl0eSIsInBvcnQiLCJwYXRoIiwiYmF1ZFJhdGUiLCJwYXJzZXIiLCJwaXBlIiwiZGVsaW1pdGVyIiwib24iLCJsaW5lIiwiY29uc29sZSIsImxvZyIsImRhdGEiLCJKU09OIiwicGFyc2UiLCJ0cmltIiwiZXJyb3IiLCJnZXRMYXN0UmVhZGluZyJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(rsc)/./src/lib/serialPort.ts\n");
 
 /***/ })
 
@@ -215,7 +149,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 var __webpack_require__ = require("../../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/next","vendor-chunks/@serialport","vendor-chunks/debug","vendor-chunks/serialport","vendor-chunks/node-gyp-build","vendor-chunks/supports-color","vendor-chunks/ms","vendor-chunks/has-flag"], () => (__webpack_exec__("(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Fapi%2Fsensor%2Froute&page=%2Fapi%2Fsensor%2Froute&appPaths=&pagePath=private-next-app-dir%2Fapi%2Fsensor%2Froute.ts&appDir=%2FUsers%2Friboubenjamin%2Fgit%2Ftp-arm-raspberry%2Fsrc%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2FUsers%2Friboubenjamin%2Fgit%2Ftp-arm-raspberry&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D!")));
+var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/next"], () => (__webpack_exec__("(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Fapi%2Fsensor%2Froute&page=%2Fapi%2Fsensor%2Froute&appPaths=&pagePath=private-next-app-dir%2Fapi%2Fsensor%2Froute.ts&appDir=%2FUsers%2Friboubenjamin%2Fgit%2Ftp-arm-raspberry%2Fsrc%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2FUsers%2Friboubenjamin%2Fgit%2Ftp-arm-raspberry&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D!")));
 module.exports = __webpack_exports__;
 
 })();
