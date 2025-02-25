@@ -14,7 +14,6 @@ const parser = port.pipe(new ReadlineParser({ delimiter: '\n' }));
 
 parser.on('data', (line: string) => {
   try {
-    // console.log(line)
     const data = JSON.parse(line.trim());
     lastReading = { temperature: data.temperature, humidity: data.humidity };
     console.log('Nouvelle lecture depuis STM32 :', lastReading);
@@ -24,10 +23,11 @@ parser.on('data', (line: string) => {
 });
 
 export function getLastReading(): SensorData {
-  console.log("lastReading -> ", lastReading)
+  console.log("lastReading -> ", lastReading);
   return lastReading;
 }
 
+// Nouvelle fonction pour envoyer la température cible au STM32
 export function sendTargetTemperature(target: number): void {
   // Formater le message en JSON
   const payload = JSON.stringify({ targetTemperature: target });
