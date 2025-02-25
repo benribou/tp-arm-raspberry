@@ -1,16 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import CountUp from "react-countup";
 
 export default function HomePage() {
-  const [sensorData, setSensorData] = useState<{ temperature: number; humidity: number } | null>(
-    null
-  );
+  const [sensorData, setSensorData] = useState<{ temperature: number; humidity: number } | null>(null);
   const [targetTemperature, setTargetTemperature] = useState(25);
   const [validatedTarget, setValidatedTarget] = useState<number | null>(null);
   const [isSending, setIsSending] = useState(false);
 
-  // 1) Récupération des données du capteur
+  // Pour conserver la dernière valeur affichée (pour l'animation)
+  const prevSensorDataRef = useRef(sensorData);
+
+  // 1) Récupération des données du capteur avec polling
   useEffect(() => {
     async function fetchSensorData() {
       try {
@@ -25,10 +27,17 @@ export default function HomePage() {
     // Appel initial
     fetchSensorData();
   
-    // Rafraîchissement toutes les 5 secondes
+    // Rafraîchissement toutes les 500 ms (ajuste si besoin)
     const interval = setInterval(fetchSensorData, 500);
     return () => clearInterval(interval);
   }, []);
+
+  // Mise à jour de la référence dès que sensorData change
+  useEffect(() => {
+    if (sensorData) {
+      prevSensorDataRef.current = sensorData;
+    }
+  }, [sensorData]);
 
   // 2) Récupération de la température cible sauvegardée
   useEffect(() => {
@@ -39,17 +48,14 @@ export default function HomePage() {
           throw new Error("Impossible de récupérer la température cible");
         }
         const data = await res.json();
-
-        // data.targetTemperature est défini dans votre route GET
         if (data.targetTemperature !== undefined) {
           setValidatedTarget(data.targetTemperature);
-          setTargetTemperature(data.targetTemperature); // on aligne le slider sur la valeur sauvegardée
+          setTargetTemperature(data.targetTemperature); // Aligne le slider sur la valeur sauvegardée
         }
       } catch (error) {
         console.error("Erreur lors de la récupération de la température cible :", error);
       }
     }
-
     fetchSavedTarget();
   }, []);
 
@@ -70,7 +76,6 @@ export default function HomePage() {
       if (!res.ok) {
         console.error("Erreur lors de l'envoi de la température cible");
       } else {
-        // Met à jour la température cible validée localement
         setValidatedTarget(targetTemperature);
       }
     } catch (error) {
@@ -101,16 +106,21 @@ export default function HomePage() {
               }`}
             >
               <span className="text-6xl mb-4">🌡️</span>
-              <h2 className="text-2xl font-semibold mb-2 text-gray-700">
-                Température
-              </h2>
+              <h2 className="text-2xl font-semibold mb-2 text-gray-700">Température</h2>
               <p className="text-4xl font-bold text-gray-900">
-                {sensorData.temperature}°C
+                {sensorData && (
+                  <CountUp
+                    key={sensorData.temperature}
+                    start={prevSensorDataRef.current?.temperature || sensorData.temperature}
+                    end={sensorData.temperature}
+                    duration={0.5}
+                    decimals={0}
+                    suffix="°C"
+                  />
+                )}
               </p>
               {validatedTarget !== null && (
-                <p className="mt-2 text-sm text-gray-500">
-                  (Cible : {validatedTarget}°C)
-                </p>
+                <p className="mt-2 text-sm text-gray-500">(Cible : {validatedTarget}°C)</p>
               )}
               {targetReached && (
                 <p className="mt-2 text-sm text-red-500 font-semibold">
@@ -122,11 +132,18 @@ export default function HomePage() {
             {/* Card Humidité */}
             <div className="flex-1 bg-white rounded-xl shadow-md p-8 flex flex-col items-center">
               <span className="text-6xl mb-4">💧</span>
-              <h2 className="text-2xl font-semibold mb-2 text-gray-700">
-                Humidité
-              </h2>
+              <h2 className="text-2xl font-semibold mb-2 text-gray-700">Humidité</h2>
               <p className="text-4xl font-bold text-gray-900">
-                {sensorData.humidity}%
+                {sensorData && (
+                  <CountUp
+                    key={sensorData.humidity}
+                    start={prevSensorDataRef.current?.humidity || sensorData.humidity}
+                    end={sensorData.humidity}
+                    duration={0.5}
+                    decimals={0}
+                    suffix="%"
+                  />
+                )}
               </p>
             </div>
           </div>
@@ -148,9 +165,7 @@ export default function HomePage() {
               onChange={handleTemperatureChange}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-4"
             />
-            <p className="text-xl font-bold text-gray-900 mb-4">
-              {targetTemperature}°C
-            </p>
+            <p className="text-xl font-bold text-gray-900 mb-4">{targetTemperature}°C</p>
             <button
               onClick={handleSubmit}
               disabled={isSending}
