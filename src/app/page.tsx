@@ -28,7 +28,7 @@ export default function HomePage() {
     fetchSensorData();
   
     // Rafraîchissement toutes les 500 ms (ajuste si besoin)
-    const interval = setInterval(fetchSensorData, 100);
+    const interval = setInterval(fetchSensorData, 250);
     return () => clearInterval(interval);
   }, []);
 
