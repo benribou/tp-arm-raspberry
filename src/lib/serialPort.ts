@@ -24,6 +24,6 @@ parser.on('data', (line: string) => {
 });
 
 export function getLastReading(): SensorData {
-  console.log(lastReading)
+  console.log("lastReading -> ", lastReading)
   return lastReading;
 }
