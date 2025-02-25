@@ -16,8 +16,8 @@ let lastReading: SensorData = {
 // Ouvrir le port série au démarrage
 // Remplacez '/dev/ttyS0' par le port approprié sur votre Raspberry Pi (ex: /dev/serial0, /dev/ttyAMA0, etc.)
 const port = new SerialPort({
-  path: '/dev/ttyS0',
-  baudRate: 9600,
+  path: '/dev/ttyUSB0',
+  baudRate: 115200,
 });
 
 // Parser pour découper chaque ligne
