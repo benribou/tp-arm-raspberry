@@ -84,6 +84,11 @@ export default function HomePage() {
         <h1 className="text-3xl mb-14 text-gray-800 text-center uppercase font-semibold">
           Thermostat Dashboard
         </h1>
+        {latency !== null && (
+                <p className="mt-2 text-sm text-gray-500 text-center">
+                  Latence : {latency.toFixed(2)} ms
+                </p>
+        )}
 
         {sensorData ? (
           <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
@@ -116,11 +121,6 @@ export default function HomePage() {
               {targetReached && (
                 <p className="mt-2 text-sm text-red-500 font-semibold">
                   La température cible a été atteinte !
-                </p>
-              )}
-              {latency !== null && (
-                <p className="mt-2 text-sm text-gray-500">
-                  Latence : {latency.toFixed(2)} ms
                 </p>
               )}
             </div>
