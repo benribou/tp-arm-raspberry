@@ -15,7 +15,7 @@ const parser = port.pipe(new ReadlineParser({ delimiter: '\n' }));
 
 parser.on('data', (line: string) => {
   try {
-    console.log(line)
+    console.log("line -> ", line)
     const data = JSON.parse(line.trim());
     lastReading = { temperature: data.temperature, humidity: data.humidity, targetTemperature: data.targetTemperature };
     console.log('Nouvelle lecture depuis STM32 :', lastReading);
