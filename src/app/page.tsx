@@ -41,7 +41,7 @@ export default function HomePage() {
 
     fetchSensorData();
 
-    const interval = setInterval(fetchSensorData, 1000);
+    const interval = setInterval(fetchSensorData, 300);
     return () => clearInterval(interval);
   }, []);
 
