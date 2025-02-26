@@ -5,7 +5,6 @@ import { sendTargetTemperature } from '@/lib/serialPort';
 export async function POST(request: Request) {
   try {
     const { targetTemperature } = await request.json();
-
     // Envoie la température cible au STM32 pour qu'il la sauvegarde en ROM.
     sendTargetTemperature(targetTemperature);
     console.log("Température cible envoyée au STM32 :", targetTemperature);

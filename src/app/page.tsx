@@ -4,9 +4,12 @@ import { useEffect, useState, useRef } from "react";
 import CountUp from "react-countup";
 
 export default function HomePage() {
-  const [sensorData, setSensorData] = useState<{ temperature: number; humidity: number } | null>(null);
+  const [sensorData, setSensorData] = useState<{ 
+    temperature: number; 
+    humidity: number; 
+    targetTemperature: number; 
+  } | null>(null);
   const [targetTemperature, setTargetTemperature] = useState(25);
-  const [validatedTarget, setValidatedTarget] = useState<number | null>(null);
   const [isSending, setIsSending] = useState(false);
   const [latency, setLatency] = useState<number | null>(null);
 
@@ -18,19 +21,17 @@ export default function HomePage() {
       try {
         const res = await fetch("/api/sensor");
         const newData = await res.json();
-
-        // Mettre à jour uniquement si les données ont changé
+        // On suppose ici que newData.targetTemperature est déjà un nombre.
         if (
           newData.temperature !== prevSensorDataRef.current?.temperature ||
-          newData.humidity !== prevSensorDataRef.current?.humidity
+          newData.humidity !== prevSensorDataRef.current?.humidity ||
+          newData.targetTemperature !== prevSensorDataRef.current?.targetTemperature
         ) {
           setSensorData(newData);
 
-          // Calculer la latence
           const currentTime = performance.now();
           if (lastFetchTimeRef.current !== null) {
-            const calculatedLatency = currentTime - lastFetchTimeRef.current;
-            setLatency(calculatedLatency);
+            setLatency(currentTime - lastFetchTimeRef.current);
           }
           lastFetchTimeRef.current = currentTime;
         }
@@ -40,43 +41,22 @@ export default function HomePage() {
     }
 
     fetchSensorData();
-
-    const interval = setInterval(fetchSensorData, 300);
+    const interval = setInterval(fetchSensorData, 1000);
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     if (sensorData) {
       prevSensorDataRef.current = sensorData;
+      // Synchroniser le slider avec la valeur renvoyée par le STM32
+      setTargetTemperature(sensorData.targetTemperature);
     }
   }, [sensorData]);
 
-  // 2) Récupération de la température cible sauvegardée
-  useEffect(() => {
-    async function fetchSavedTarget() {
-      try {
-        const res = await fetch("/api/temperature");
-        if (!res.ok) {
-          throw new Error("Impossible de récupérer la température cible");
-        }
-        const data = await res.json();
-        if (data.targetTemperature !== undefined) {
-          setValidatedTarget(data.targetTemperature);
-          setTargetTemperature(data.targetTemperature); // Aligne le slider sur la valeur sauvegardée
-        }
-      } catch (error) {
-        console.error("Erreur lors de la récupération de la température cible :", error);
-      }
-    }
-    fetchSavedTarget();
-  }, []);
-
-  // Gestion du slider
   const handleTemperatureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTargetTemperature(Number(event.target.value));
   };
 
-  // 3) Envoi de la température cible vers /api/temperature (POST)
   const handleSubmit = async () => {
     setIsSending(true);
     try {
@@ -87,8 +67,6 @@ export default function HomePage() {
       });
       if (!res.ok) {
         console.error("Erreur lors de l'envoi de la température cible");
-      } else {
-        setValidatedTarget(targetTemperature);
       }
     } catch (error) {
       console.error("Erreur lors de l'envoi de la température cible", error);
@@ -97,9 +75,8 @@ export default function HomePage() {
     }
   };
 
-  // 4) Détermine si la température mesurée est >= la cible validée
   const targetReached =
-    sensorData && validatedTarget !== null && sensorData.temperature >= validatedTarget;
+    sensorData && sensorData.temperature >= sensorData.targetTemperature;
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
@@ -108,16 +85,17 @@ export default function HomePage() {
           Thermostat Dashboard
         </h1>
 
-        {/* Section d'affichage des cards avec données */}
         {sensorData ? (
           <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
-            {/* Card Température */}
             <div
-              className={`flex-1 bg-white rounded-xl shadow-md p-8 flex flex-col items-center ${targetReached ? "border-4 border-red-500" : ""
-                }`}
+              className={`flex-1 bg-white rounded-xl shadow-md p-8 flex flex-col items-center ${
+                targetReached ? "border-4 border-red-500" : ""
+              }`}
             >
               <span className="text-6xl mb-4">🌡️</span>
-              <h2 className="text-2xl font-semibold mb-2 text-gray-700">Température</h2>
+              <h2 className="text-2xl font-semibold mb-2 text-gray-700">
+                Température
+              </h2>
               <p className="text-4xl font-bold text-gray-900">
                 {sensorData && (
                   <CountUp
@@ -130,8 +108,10 @@ export default function HomePage() {
                   />
                 )}
               </p>
-              {validatedTarget !== null && (
-                <p className="mt-2 text-sm text-gray-500">(Cible : {validatedTarget}°C)</p>
+              {sensorData && (
+                <p className="mt-2 text-sm text-gray-500">
+                  (Cible : {sensorData.targetTemperature}°C)
+                </p>
               )}
               {targetReached && (
                 <p className="mt-2 text-sm text-red-500 font-semibold">
@@ -139,11 +119,12 @@ export default function HomePage() {
                 </p>
               )}
               {latency !== null && (
-                <p className="mt-2 text-sm text-gray-500">Latence : {latency.toFixed(2)} ms</p>
+                <p className="mt-2 text-sm text-gray-500">
+                  Latence : {latency.toFixed(2)} ms
+                </p>
               )}
             </div>
 
-            {/* Card Humidité */}
             <div className="flex-1 bg-white rounded-xl shadow-md p-8 flex flex-col items-center">
               <span className="text-6xl mb-4">💧</span>
               <h2 className="text-2xl font-semibold mb-2 text-gray-700">Humidité</h2>
@@ -165,7 +146,6 @@ export default function HomePage() {
           <p className="text-center text-gray-500">Chargement des données...</p>
         )}
 
-        {/* Section de réglage de la température cible */}
         <div className="mt-12 bg-white rounded-xl shadow-md p-8">
           <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
             Réglage de la température cible
