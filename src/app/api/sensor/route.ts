@@ -7,6 +7,7 @@ import { getLastReading } from '@/lib/serialPort';
 export async function GET() {
   try {
     const data = getLastReading();
+    console.log(data)
     return NextResponse.json(data);
   } catch (error) {
     console.error('Erreur dans GET /api/sensor:', error);
