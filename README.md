@@ -63,7 +63,7 @@ Une application complète permettant de visualiser en temps réel les mesures d'
 
 ```bash
 git clone https://github.com/benribou/tp-arm-raspberry.git
-cd thermostat-dashboard
+cd tp-arm-raspberry
 npm install
 npm run build
 npm start
