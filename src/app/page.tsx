@@ -81,11 +81,11 @@ export default function HomePage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
       <div className="w-full max-w-4xl">
-        <h1 className="text-3xl mb-14 text-gray-800 text-center uppercase font-semibold">
+        <h1 className="text-3xl text-gray-800 text-center uppercase font-semibold">
           Thermostat Dashboard
         </h1>
         {latency !== null && (
-                <p className="mt-2 text-sm text-gray-500 text-center">
+                <p className="mt-4 mb-14 text-sm text-gray-500 text-center">
                   Latence : {latency.toFixed(2)} ms
                 </p>
         )}
