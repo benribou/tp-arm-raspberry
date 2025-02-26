@@ -9,19 +9,21 @@ export default function HomePage() {
     humidity: number; 
     targetTemperature: number; 
   } | null>(null);
-  const [targetTemperature, setTargetTemperature] = useState(25);
+  // sliderValue correspond à la valeur du curseur (modifiable par l'utilisateur)
+  const [sliderValue, setSliderValue] = useState(25);
   const [isSending, setIsSending] = useState(false);
   const [latency, setLatency] = useState<number | null>(null);
 
   const prevSensorDataRef = useRef(sensorData);
   const lastFetchTimeRef = useRef<number | null>(null);
 
+  // Effect pour récupérer les données du capteur
   useEffect(() => {
     async function fetchSensorData() {
       try {
         const res = await fetch("/api/sensor");
         const newData = await res.json();
-        // On suppose ici que newData.targetTemperature est déjà un nombre.
+        // Mise à jour seulement si les données changent
         if (
           newData.temperature !== prevSensorDataRef.current?.temperature ||
           newData.humidity !== prevSensorDataRef.current?.humidity ||
@@ -45,25 +47,28 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
+  // Effect initial pour synchroniser le slider avec la valeur reçue au chargement
   useEffect(() => {
     if (sensorData) {
+      // Au chargement initial, on synchronise le slider avec la cible enregistrée par le STM32
+      setSliderValue(sensorData.targetTemperature);
       prevSensorDataRef.current = sensorData;
-      // Synchroniser le slider avec la valeur renvoyée par le STM32
-      setTargetTemperature(sensorData.targetTemperature);
     }
-  }, [sensorData]);
+  }, [sensorData?.targetTemperature]);
 
-  const handleTemperatureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTargetTemperature(Number(event.target.value));
+  // Gestion du slider
+  const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSliderValue(Number(event.target.value));
   };
 
+  // Envoi de la nouvelle cible via l'API
   const handleSubmit = async () => {
     setIsSending(true);
     try {
       const res = await fetch("/api/temperature", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ targetTemperature }),
+        body: JSON.stringify({ targetTemperature: sliderValue }),
       });
       if (!res.ok) {
         console.error("Erreur lors de l'envoi de la température cible");
@@ -75,6 +80,7 @@ export default function HomePage() {
     }
   };
 
+  // Comparaison pour savoir si la température mesurée atteint la cible (celle du STM32)
   const targetReached =
     sensorData && sensorData.temperature >= sensorData.targetTemperature;
 
@@ -85,13 +91,14 @@ export default function HomePage() {
           Thermostat Dashboard
         </h1>
         {latency !== null && (
-                <p className="mt-4 mb-14 text-sm text-gray-500 text-center">
-                  Latence : {latency.toFixed(2)} ms
-                </p>
+          <p className="mt-4 mb-14 text-sm text-gray-500 text-center">
+            Latence : {latency.toFixed(2)} ms
+          </p>
         )}
 
         {sensorData ? (
           <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
+            {/* Affichage des mesures */}
             <div
               className={`flex-1 bg-white rounded-xl shadow-md p-8 flex flex-col items-center ${
                 targetReached ? "border-4 border-red-500" : ""
@@ -125,6 +132,7 @@ export default function HomePage() {
               )}
             </div>
 
+            {/* Affichage de l'humidité */}
             <div className="flex-1 bg-white rounded-xl shadow-md p-8 flex flex-col items-center">
               <span className="text-6xl mb-4">💧</span>
               <h2 className="text-2xl font-semibold mb-2 text-gray-700">Humidité</h2>
@@ -146,6 +154,7 @@ export default function HomePage() {
           <p className="text-center text-gray-500">Chargement des données...</p>
         )}
 
+        {/* Section de réglage */}
         <div className="mt-12 bg-white rounded-xl shadow-md p-8">
           <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
             Réglage de la température cible
@@ -155,11 +164,13 @@ export default function HomePage() {
               type="range"
               min="-20"
               max="60"
-              value={targetTemperature}
-              onChange={handleTemperatureChange}
+              value={sliderValue}
+              onChange={handleSliderChange}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-4"
             />
-            <p className="text-xl font-bold text-gray-900 mb-4">{targetTemperature}°C</p>
+            <p className="text-xl font-bold text-gray-900 mb-4">
+              {sliderValue}°C
+            </p>
             <button
               onClick={handleSubmit}
               disabled={isSending}
