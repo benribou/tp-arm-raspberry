@@ -9,10 +9,8 @@ export default function HomePage() {
   const [validatedTarget, setValidatedTarget] = useState<number | null>(null);
   const [isSending, setIsSending] = useState(false);
 
-  // Pour conserver la dernière valeur affichée (pour l'animation)
   const prevSensorDataRef = useRef(sensorData);
 
-  // 1) Récupération des données du capteur avec polling
   useEffect(() => {
     async function fetchSensorData() {
       try {
@@ -24,16 +22,13 @@ export default function HomePage() {
         console.error("Erreur lors de la récupération des données du capteur :", error);
       }
     }
-  
-    // Appel initial
+
     fetchSensorData();
   
-    // Rafraîchissement toutes les 500 ms (ajuste si besoin)
     const interval = setInterval(fetchSensorData, 1000);
     return () => clearInterval(interval);
   }, [sensorData]);
 
-  // Mise à jour de la référence dès que sensorData change
   useEffect(() => {
     if (sensorData) {
       prevSensorDataRef.current = sensorData;

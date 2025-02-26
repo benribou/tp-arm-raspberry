@@ -1,6 +1,4 @@
 {
   "/api/sensor/route": "app/api/sensor/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/temperature/route": "app/api/temperature/route.js",
-  "/page": "app/page.js"
+  "/api/temperature/route": "app/api/temperature/route.js"
 }
