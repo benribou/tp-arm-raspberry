@@ -91,7 +91,7 @@ export default function HomePage() {
           Thermostat Dashboard
         </h1>
         {latency !== null && (
-          <p className="mt-4 mb-14 text-sm text-gray-500 text-center">
+          <p className="mt-4 mb-9 text-sm text-gray-500 text-center">
             Latence : {latency.toFixed(2)} ms
           </p>
         )}
