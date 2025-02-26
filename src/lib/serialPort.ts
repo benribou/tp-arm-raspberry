@@ -44,15 +44,3 @@ export function sendTargetTemperature(target: number): void {
     console.log("Message envoyé au STM32 :", payload);
   });
 }
-
-// Envoie une commande pour allumer (state=true) ou éteindre (state=false) la LED
-export function sendLEDCommand(state: boolean): void {
-  const payload = JSON.stringify({ led: state });
-  const message = payload + "\n";
-  port.write(message, (err) => {
-    if (err) {
-      return console.error("Erreur lors de l'envoi de la commande LED au STM32 :", err.message);
-    }
-    console.log("Commande LED envoyée au STM32 :", payload);
-  });
-}

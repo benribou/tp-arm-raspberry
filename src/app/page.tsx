@@ -110,7 +110,7 @@ export default function HomePage() {
                     start={prevSensorDataRef.current?.temperature || sensorData.temperature}
                     end={sensorData.temperature}
                     duration={0.5}
-                    decimals={0}
+                    decimals={1}
                     suffix="°C"
                   />
                 )}
@@ -136,7 +136,7 @@ export default function HomePage() {
                     start={prevSensorDataRef.current?.humidity || sensorData.humidity}
                     end={sensorData.humidity}
                     duration={0.5}
-                    decimals={0}
+                    decimals={1}
                     suffix="%"
                   />
                 )}
