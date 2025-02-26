@@ -8,26 +8,42 @@ export default function HomePage() {
   const [targetTemperature, setTargetTemperature] = useState(25);
   const [validatedTarget, setValidatedTarget] = useState<number | null>(null);
   const [isSending, setIsSending] = useState(false);
+  const [latency, setLatency] = useState<number | null>(null);
 
   const prevSensorDataRef = useRef(sensorData);
+  const lastFetchTimeRef = useRef<number | null>(null);
 
   useEffect(() => {
     async function fetchSensorData() {
       try {
         const res = await fetch("/api/sensor");
-        const data = await res.json();
-        setSensorData(data);
-        console.log("sensorData -> ", sensorData)
+        const newData = await res.json();
+
+        // Mettre à jour uniquement si les données ont changé
+        if (
+          newData.temperature !== prevSensorDataRef.current?.temperature ||
+          newData.humidity !== prevSensorDataRef.current?.humidity
+        ) {
+          setSensorData(newData);
+
+          // Calculer la latence
+          const currentTime = performance.now();
+          if (lastFetchTimeRef.current !== null) {
+            const calculatedLatency = currentTime - lastFetchTimeRef.current;
+            setLatency(calculatedLatency);
+          }
+          lastFetchTimeRef.current = currentTime;
+        }
       } catch (error) {
         console.error("Erreur lors de la récupération des données du capteur :", error);
       }
     }
 
     fetchSensorData();
-  
+
     const interval = setInterval(fetchSensorData, 1000);
     return () => clearInterval(interval);
-  }, [sensorData]);
+  }, []);
 
   useEffect(() => {
     if (sensorData) {
@@ -97,9 +113,8 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
             {/* Card Température */}
             <div
-              className={`flex-1 bg-white rounded-xl shadow-md p-8 flex flex-col items-center ${
-                targetReached ? "border-4 border-red-500" : ""
-              }`}
+              className={`flex-1 bg-white rounded-xl shadow-md p-8 flex flex-col items-center ${targetReached ? "border-4 border-red-500" : ""
+                }`}
             >
               <span className="text-6xl mb-4">🌡️</span>
               <h2 className="text-2xl font-semibold mb-2 text-gray-700">Température</h2>
@@ -122,6 +137,9 @@ export default function HomePage() {
                 <p className="mt-2 text-sm text-red-500 font-semibold">
                   La température cible a été atteinte !
                 </p>
+              )}
+              {latency !== null && (
+                <p className="mt-2 text-sm text-gray-500">Latence : {latency.toFixed(2)} ms</p>
               )}
             </div>
 
